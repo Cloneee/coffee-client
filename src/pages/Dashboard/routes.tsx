@@ -2,7 +2,7 @@
 import { lazy } from "react";
 
 export default {
-    path: '/',
+    path: '/dashboard',
     exact: true,
     public: true,
     component: lazy(()=> import("."))

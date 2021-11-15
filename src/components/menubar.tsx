@@ -1,13 +1,11 @@
-import React from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import * as React from "react";
 
-import routes from "./pages/routes";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import { Button, CircularProgress, Link } from "@mui/material";
+import { Button, Link } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,7 +22,6 @@ import Typography from "@mui/material/Typography";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import "./App.css";
 
 const drawerWidth = 240;
 
@@ -115,9 +112,13 @@ const menuSection1 = [
   },
 ];
 
-function App() {
+interface sidebarState{
+  isOpen: boolean;
+};
+
+export default function Menubar(prop: sidebarState) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(prop.isOpen);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -147,9 +148,9 @@ function App() {
           <Typography variant="h6" noWrap component="div">
             Coffee Manager
           </Typography>
-          <Button color="inherit" sx={{ ml: "auto" }} href="/login">
-            Login
-          </Button>
+            <Button color="inherit" sx={{ ml: "auto" }} href="/login">
+              Login
+            </Button>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
@@ -191,28 +192,6 @@ function App() {
           ))}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 5 }}>
-        <Router>
-          <Switch>
-            {routes.map(({ component: Component, path, ...rest }) => {
-              return (
-                <Route
-                  render={(props) => (
-                    <React.Suspense fallback={<CircularProgress size={80} sx={{position: 'fixed', top: '50%', left: '50%'}}/>}>
-                      <Component {...props} />
-                    </React.Suspense>
-                  )}
-                  key={path}
-                  path={path}
-                  {...rest}
-                />
-              );
-            })}
-          </Switch>
-        </Router>
-      </Box>
     </Box>
   );
 }
-
-export default App;

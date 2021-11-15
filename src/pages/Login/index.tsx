@@ -28,23 +28,32 @@ const Login = (props: any) => {
 
   return (
     <Container
-      sx={{ bgcolor: "white", boxShadow: 1, width: "45%", mt: "10%", py: "2%", display: "flex", flexDirection: "column", alignItems: "center", borderRadius: 16 }}
+      maxWidth="sm"
+      sx={{
+        bgcolor: "white",
+        boxShadow: 1,
+        mt: "10%",
+        py: "2%",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        borderRadius: 16,
+      }}
     >
-      <Typography variant="h1" align="center">
+      <Typography variant="h2" align="center">
         Coffee Manager
       </Typography>
       <Typography variant="h4" align="center">
         For employees only
       </Typography>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          width: "25%",
-          alignItems: "center",
-        }}
-      >
-        <form onSubmit={handleSubmit} id="login-form">
+      <form onSubmit={handleSubmit} id="login-form">
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
           <TextField
             label="Username"
             id="username"
@@ -52,7 +61,7 @@ const Login = (props: any) => {
             variant="standard"
             type="text"
             onChange={handleUserChange}
-            sx={{mt: "5%"}}
+            sx={{ mt: "5%" }}
           />
           <TextField
             label="Password"
@@ -61,13 +70,19 @@ const Login = (props: any) => {
             variant="standard"
             type="password"
             onChange={handlePassChange}
-            sx={{mt: "5%"}}
+            sx={{ mt: "5%" }}
           />
-        </form>
-          <Button type="submit" variant="contained" size="large" sx={{mt: "5%", display: "flex"}} form="login-form">
+          <Button
+            type="submit"
+            variant="contained"
+            size="large"
+            sx={{ mt: "5%", display: "flex" }}
+            form="login-form"
+          >
             Login
           </Button>
-      </Box>
+        </Box>
+      </form>
     </Container>
   );
 };
