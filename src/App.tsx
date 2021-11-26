@@ -1,5 +1,10 @@
 import React from "react";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Link as RouterLink,
+} from "react-router-dom";
 
 import routes from "./pages/routes";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
@@ -7,7 +12,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuIcon from "@mui/icons-material/Menu";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
-import { Button, CircularProgress, Link } from "@mui/material";
+import { Button, CircularProgress } from "@mui/material";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -101,17 +106,17 @@ const menuSection1 = [
   {
     text: "Order",
     icon: RestaurantMenuIcon,
-    link: "order",
+    link: "/order",
   },
   {
     text: "Dashboard",
     icon: DashboardIcon,
-    link: "dashboard",
+    link: "/dashboard",
   },
   {
     text: "Membership manager",
     icon: PeopleAltIcon,
-    link: "membership",
+    link: "/membership",
   },
 ];
 
@@ -129,76 +134,87 @@ function App() {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: "36px",
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Coffee Manager
-          </Typography>
-          <Button color="inherit" sx={{ ml: "auto" }} href="/login">
-            Login
-          </Button>
-        </Toolbar>
-      </AppBar>
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {menuSection1.map((data, index) => (
-            <Link
-              href={data.link}
-              sx={{ textDecoration: "none", color: "text.primary" }}
-              key={data.text}
+      <Router>
+        <CssBaseline />
+        <AppBar position="fixed" open={open}>
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              sx={{
+                marginRight: "36px",
+                ...(open && { display: "none" }),
+              }}
             >
-              <ListItem button>
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap component="div">
+              Coffee Manager
+            </Typography>
+            <Button
+              component={RouterLink}
+              color="inherit"
+              sx={{ ml: "auto" }}
+              to="/login"
+            >
+              Login
+            </Button>
+          </Toolbar>
+        </AppBar>
+        <Drawer variant="permanent" open={open}>
+          <DrawerHeader>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === "rtl" ? (
+                <ChevronRightIcon />
+              ) : (
+                <ChevronLeftIcon />
+              )}
+            </IconButton>
+          </DrawerHeader>
+          <Divider />
+          <List>
+            {menuSection1.map((data, index) => (
+              <ListItem
+                button
+                component={RouterLink}
+                to={data.link}
+                key={data.text}
+              >
                 <ListItemIcon>
                   <data.icon />
                 </ListItemIcon>
                 <ListItemText primary={data.text} />
               </ListItem>
-            </Link>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, mt: 5 }}>
-        <Router>
+            ))}
+          </List>
+          <Divider />
+          <List>
+            {["All mail", "Trash", "Spam"].map((text, index) => (
+              <ListItem button key={text}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            ))}
+          </List>
+        </Drawer>
+        <Box component="main" sx={{ flexGrow: 1, pt: 8, height: '100vh' }}>
           <Switch>
             {routes.map(({ component: Component, path, ...rest }) => {
               return (
                 <Route
                   render={(props) => (
-                    <React.Suspense fallback={<CircularProgress size={80} sx={{position: 'fixed', top: '50%', left: '50%'}}/>}>
+                    <React.Suspense
+                      fallback={
+                        <CircularProgress
+                          size={80}
+                          sx={{ position: "fixed", top: "50%", left: "50%" }}
+                        />
+                      }
+                    >
                       <Component {...props} />
                     </React.Suspense>
                   )}
@@ -209,8 +225,8 @@ function App() {
               );
             })}
           </Switch>
-        </Router>
-      </Box>
+        </Box>
+      </Router>
     </Box>
   );
 }
