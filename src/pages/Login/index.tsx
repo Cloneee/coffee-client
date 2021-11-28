@@ -1,11 +1,13 @@
 import { Button, TextField, Typography, Container, Box } from "@mui/material";
 import React, { useState } from "react";
+import {Redirect} from 'react-router-dom'
 
 const Login = (props: any) => {
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
+  const [redirect, setRedirect] = useState(false)
 
   const handleUserChange = (e: any) => {
     setUser({
@@ -23,7 +25,8 @@ const Login = (props: any) => {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    alert(`username: ${user.username} \npassword: ${user.password}`);
+    user.username === 'admin' && user.password === '123'?  localStorage.isAuth = true : localStorage.isAuth = false;
+    setRedirect(true);
   };
 
   return (
@@ -83,6 +86,7 @@ const Login = (props: any) => {
           </Button>
         </Box>
       </form>
+      {redirect? <Redirect to="/" /> : null}
     </Container>
   );
 };

@@ -4,6 +4,7 @@ import {
   Switch,
   BrowserRouter as Router,
   Link as RouterLink,
+  Redirect
 } from "react-router-dom";
 
 import routes from "./pages/routes";
@@ -123,6 +124,7 @@ const menuSection1 = [
 function App() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const [logInfo, setLogInfo] = React.useState("Login");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -130,6 +132,16 @@ function App() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleLogClick = () => {
+    if (localStorage.isAuth === 'true') {
+      localStorage.setItem("isAuth", "false");
+      setLogInfo("Login");
+    } else {
+      setLogInfo("Logout");
+    }
+    console.log(logInfo);
   };
 
   return (
@@ -154,12 +166,11 @@ function App() {
               Coffee Manager
             </Typography>
             <Button
-              component={RouterLink}
               color="inherit"
               sx={{ ml: "auto" }}
-              to="/login"
+              onClick={handleLogClick}
             >
-              Login
+              {logInfo}
             </Button>
           </Toolbar>
         </AppBar>
@@ -201,7 +212,9 @@ function App() {
             ))}
           </List>
         </Drawer>
-        <Box component="main" sx={{ flexGrow: 1, pt: 8, height: '100vh' }}>
+
+        {/* Routes section */}
+        <Box component="main" sx={{ flexGrow: 1, pt: 8, height: "100vh" }}>
           <Switch>
             {routes.map(({ component: Component, path, ...rest }) => {
               return (
@@ -215,7 +228,11 @@ function App() {
                         />
                       }
                     >
-                      <Component {...props} />
+                      {rest.public || localStorage.isAuth === 'true' ? (
+                        <Component {...props} />
+                      ) : (
+                        <Redirect to="/login" />
+                      )}
                     </React.Suspense>
                   )}
                   key={path}

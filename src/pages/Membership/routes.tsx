@@ -4,6 +4,6 @@ import { lazy } from "react";
 export default {
     path: '/membership',
     exact: true,
-    public: true,
+    public: false,
     component: lazy(()=> import("."))
 }
