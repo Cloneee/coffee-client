@@ -12,6 +12,7 @@ type Props = {
   handleClose: (e: any) => void;
   drink: any;
   handleChangeQuantity: (e: React.ChangeEvent<HTMLElement>) => void;
+  handleChangeNote : (e: React.ChangeEvent<HTMLElement>) => void;
 };
 
 const style = {
@@ -31,7 +32,8 @@ const OrderModal: React.FC<Props> = ({
   handleAdd,
   handleClose,
   drink,
-  handleChangeQuantity
+  handleChangeQuantity,
+  handleChangeNote
 }) => {
   return (
     <Modal
@@ -48,7 +50,7 @@ const OrderModal: React.FC<Props> = ({
           {drink.price || ''} VND
         </Typography>
         <TextField type='number' id="standard-basic" label="Quantity" variant="standard" defaultValue={1} onChange={handleChangeQuantity} sx={{mt: 2}}/>
-        <TextField id="standard-basic" label="Note" variant="standard" sx={{mt: 2}}/>
+        <TextField id="standard-basic" label="Note" variant="standard" onChange={handleChangeNote} sx={{mt: 2}}/>
         <Button variant="contained" color="success" sx={{float: 'right'}} onClick={handleAdd}><AddIcon/></Button>
       </Box>
     </Modal>

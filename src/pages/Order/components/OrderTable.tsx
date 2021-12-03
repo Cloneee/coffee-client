@@ -11,15 +11,23 @@ type Drinks = {
 type Props = {
   open: boolean;
   drink: Drinks;
-  order: Drinks[];
   handleTableClick: (e: GridRowParams) => void;
   handleAdd: (e: React.MouseEvent<HTMLElement>) => void;
   handleClose: (e: React.MouseEvent<HTMLElement>) => void;
-  handleChangeQuantity: (e: React.ChangeEvent<HTMLElement>) => void;
-}
+  handleChangeQuantity: (e: React.ChangeEvent<HTMLElement>) => void; 
+  handleChangeNote : (e: React.ChangeEvent<HTMLElement>) => void;
 
-const OderTable: React.FC<Props> = ({open, drink, order, handleTableClick, handleAdd, handleClose, handleChangeQuantity }) => {
+};
 
+const OderTable: React.FC<Props> = ({
+  open,
+  drink,
+  handleTableClick,
+  handleAdd,
+  handleClose,
+  handleChangeQuantity,
+  handleChangeNote
+}) => {
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", minWidth: 70 },
     {
@@ -80,9 +88,10 @@ const OderTable: React.FC<Props> = ({open, drink, order, handleTableClick, handl
         handleClose={handleClose}
         drink={drink}
         handleChangeQuantity={handleChangeQuantity}
+        handleChangeNote={handleChangeNote}
       />
     </Box>
   );
-}
+};
 
 export default OderTable;
