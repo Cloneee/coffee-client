@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
@@ -11,6 +11,7 @@ type Props = {
   handleAdd: (e: any) => void;
   handleClose: (e: any) => void;
   drink: any;
+  handleChangeQuantity: (e: React.ChangeEvent<HTMLElement>) => void;
 };
 
 const style = {
@@ -30,12 +31,8 @@ const OrderModal: React.FC<Props> = ({
   handleAdd,
   handleClose,
   drink,
+  handleChangeQuantity
 }) => {
-  const [quantity, setQuantity] = useState(1)
-  const handleChange = (e: any)=>{
-    setQuantity(parseInt(e.nativeEvent.srcElement.value))
-    console.log(quantity);
-  }
   return (
     <Modal
       open={open}
@@ -50,7 +47,7 @@ const OrderModal: React.FC<Props> = ({
         <Typography id="modal-modal-description" variant="h5" sx={{ mt: 2, float: 'right' }}>
           {drink.price || ''} VND
         </Typography>
-        <TextField type='number' id="standard-basic" label="Quantity" variant="standard" defaultValue={1} onChange={handleChange} sx={{mt: 2}}/>
+        <TextField type='number' id="standard-basic" label="Quantity" variant="standard" defaultValue={1} onChange={handleChangeQuantity} sx={{mt: 2}}/>
         <TextField id="standard-basic" label="Note" variant="standard" sx={{mt: 2}}/>
         <Button variant="contained" color="success" sx={{float: 'right'}} onClick={handleAdd}><AddIcon/></Button>
       </Box>

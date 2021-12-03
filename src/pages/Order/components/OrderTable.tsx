@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 import { Box } from "@mui/material";
 import OrderModal from "./OrderModal";
@@ -8,10 +8,17 @@ type Drinks = {
   price: number;
 };
 
-function OderTable() {
-  const [open, setOpen] = useState(false);
-  const [drink, setDrink] = useState<Drinks>({name: 'null', price: 0});
-  const [order, setOrder] = useState<Drinks[]>([]);
+type Props = {
+  open: boolean;
+  drink: Drinks;
+  order: Drinks[];
+  handleTableClick: (e: GridRowParams) => void;
+  handleAdd: (e: React.MouseEvent<HTMLElement>) => void;
+  handleClose: (e: React.MouseEvent<HTMLElement>) => void;
+  handleChangeQuantity: (e: React.ChangeEvent<HTMLElement>) => void;
+}
+
+const OderTable: React.FC<Props> = ({open, drink, order, handleTableClick, handleAdd, handleClose, handleChangeQuantity }) => {
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", minWidth: 70 },
@@ -58,27 +65,6 @@ function OderTable() {
     { id: 17, name: "Black Coffee", category: "Coffee", price: 20000 },
   ];
 
-  const handleTableClick = (e: GridRowParams) => {
-    setOpen(true);
-    setDrink({name: e.row.name, price: e.row.price});
-  };
-
-  const handleAdd = (e: any) => {
-    if (order) {
-      setOrder([
-        ...order,
-        { name: drink.name, price: drink.price },
-      ]);
-    } else {
-      setOrder([{ name: drink.name, price: drink.price }]);
-    }
-    console.log(order)
-  };
-
-  const handleClose = (e: any) => {
-    setOpen(false);
-  };
-
   return (
     <Box sx={{ height: "80vh", width: "100%" }}>
       <DataGrid
@@ -93,6 +79,7 @@ function OderTable() {
         handleAdd={handleAdd}
         handleClose={handleClose}
         drink={drink}
+        handleChangeQuantity={handleChangeQuantity}
       />
     </Box>
   );
