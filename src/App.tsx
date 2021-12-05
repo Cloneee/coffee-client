@@ -124,7 +124,7 @@ const menuSection1 = [
 function App() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [logInfo, setLogInfo] = React.useState("Login");
+  const [logInfo, setLogInfo] = React.useState(localStorage.isAuth==="true"? "Logout" : "Login");
   const [redirect, setRedirect] = React.useState(false)
 
   const handleDrawerOpen = () => {

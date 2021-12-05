@@ -35,9 +35,6 @@ const Login: React.FC<User>  = ({handleLogin, redirect}) => {
         boxShadow: 1,
         mt: "10%",
         py: "2%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
         borderRadius: 16,
       }}
     >
@@ -49,11 +46,7 @@ const Login: React.FC<User>  = ({handleLogin, redirect}) => {
       </Typography>
       <form onSubmit={handleLogin} id="login-form">
         <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
+          sx={{ display: "flex", flexDirection: "column", px: 5, pb: 2 }}
         >
           <TextField
             label="Username"
