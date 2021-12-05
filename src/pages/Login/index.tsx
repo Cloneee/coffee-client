@@ -2,12 +2,16 @@ import { Button, TextField, Typography, Container, Box } from "@mui/material";
 import React, { useState } from "react";
 import {Redirect} from 'react-router-dom'
 
-const Login = (props: any) => {
+type User = {
+  handleLogin: (e:any) => void;
+  redirect: boolean
+}
+
+const Login: React.FC<User>  = ({handleLogin, redirect}) => {
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
-  const [redirect, setRedirect] = useState(false)
 
   const handleUserChange = (e: any) => {
     setUser({
@@ -21,12 +25,6 @@ const Login = (props: any) => {
       username: user.username,
       password: e.target.value,
     });
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    user.username === 'admin' && user.password === '123'?  localStorage.isAuth = true : localStorage.isAuth = false;
-    setRedirect(true);
   };
 
   return (
@@ -49,7 +47,7 @@ const Login = (props: any) => {
       <Typography variant="h4" align="center">
         For employees only
       </Typography>
-      <form onSubmit={handleSubmit} id="login-form">
+      <form onSubmit={handleLogin} id="login-form">
         <Box
           sx={{
             display: "flex",

@@ -125,6 +125,7 @@ function App() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
   const [logInfo, setLogInfo] = React.useState("Login");
+  const [redirect, setRedirect] = React.useState(false)
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -137,12 +138,18 @@ function App() {
   const handleLogClick = () => {
     if (localStorage.isAuth === 'true') {
       localStorage.setItem("isAuth", "false");
-      setLogInfo("Login");
-    } else {
       setLogInfo("Logout");
+    } else {
+      setLogInfo("Login");
     }
-    console.log(logInfo);
   };
+
+  const handleLogin = (e: any) =>{
+    e.preventDefault();
+    localStorage.isAuth = true
+    setRedirect(true);
+    setLogInfo("Logout")
+  }
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -169,6 +176,7 @@ function App() {
               color="inherit"
               sx={{ ml: "auto" }}
               onClick={handleLogClick}
+              href='/login'
             >
               {logInfo}
             </Button>
@@ -219,8 +227,8 @@ function App() {
             {routes.map(({ component: Component, path, ...rest }) => {
               return (
                 <Route
-                  render={(props) => (
-                    <React.Suspense
+                  render={(props) => {
+                    return (<React.Suspense
                       fallback={
                         <CircularProgress
                           size={80}
@@ -229,12 +237,12 @@ function App() {
                       }
                     >
                       {rest.public || localStorage.isAuth === 'true' ? (
-                        <Component {...props} />
+                        props.location.pathname === '/login'? <Component handleLogin={handleLogin} redirect={redirect} {...props}/> : <Component {...props} /> 
                       ) : (
                         <Redirect to="/login" />
                       )}
-                    </React.Suspense>
-                  )}
+                    </React.Suspense>)
+                  }}
                   key={path}
                   path={path}
                   {...rest}
