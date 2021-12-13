@@ -10,7 +10,7 @@ const Info = (props: any) => {
   useEffect(() => {
     password === rePassword ? setValidate(true) : setValidate(false);
     return () => {};
-  }, [rePassword]);
+  }, [password, rePassword]);
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
